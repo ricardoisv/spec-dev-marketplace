@@ -1,0 +1,9 @@
+{
+  "name": "klira",
+  "version": "0.0.1",
+  "description": "Klira public plugin marketplace for spec-driven product development",
+  "author": {
+    "name": "Klira Team",
+    "email": "ricardo@getklira.com"
+  }
+}

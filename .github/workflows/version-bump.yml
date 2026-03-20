@@ -1,0 +1,52 @@
+name: Bump version on PR merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Read current version
+        id: version
+        run: |
+          CURRENT=$(jq -r '.version' .claude-plugin/marketplace.json)
+          echo "current=$CURRENT" >> "$GITHUB_OUTPUT"
+          echo "Current version: $CURRENT"
+
+      - name: Compute new version
+        id: bump
+        run: |
+          IFS='.' read -r MAJOR MINOR PATCH <<< "${{ steps.version.outputs.current }}"
+          NEW_MINOR=$((MINOR + 1))
+          NEW_VERSION="${MAJOR}.${NEW_MINOR}.0"
+          echo "new=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Bumping: ${{ steps.version.outputs.current }} → $NEW_VERSION"
+
+      - name: Update version files
+        run: |
+          jq --arg v "${{ steps.bump.outputs.new }}" '.version = $v' .claude-plugin/marketplace.json > tmp.json && mv tmp.json .claude-plugin/marketplace.json
+          jq --arg v "${{ steps.bump.outputs.new }}" '.version = $v' plugins/spec-workflow/.claude-plugin/plugin.json > tmp.json && mv tmp.json plugins/spec-workflow/.claude-plugin/plugin.json
+          echo "Updated both files to ${{ steps.bump.outputs.new }}"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .claude-plugin/marketplace.json plugins/spec-workflow/.claude-plugin/plugin.json
+          git commit -m "chore: bump version to ${{ steps.bump.outputs.new }} [skip ci]"
+          # Pull with rebase in case another version bump landed between checkout and now
+          git pull --rebase origin main
+          git push origin main

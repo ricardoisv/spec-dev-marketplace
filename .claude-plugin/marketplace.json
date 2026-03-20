@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "klira-spec-dev-marketplace",
+  "version": "0.0.1",
+  "description": "Klira public plugin marketplace for spec-driven product development",
+  "owner": {
+    "name": "Klira Team",
+    "email": "ricardo@getklira.com"
+  },
+  "metadata": {
+    "description": "Internal tools for spec-driven engineering workflows"
+  },
+  "plugins": [
+    {
+      "name": "klira",
+      "source": "./plugins/spec-workflow",
+      "description": "Spec-driven workflow automation commands for agentic development",
+      "category": "development"
+    }
+  ]
+}
