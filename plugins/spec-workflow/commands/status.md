@@ -1,4 +1,5 @@
 ---
+allowed-tools: Bash(git rev-parse:*), Bash(git branch:*), Bash(ls *), mcp__linear__get_issue
 description: Check a ticket's pipeline stage and see the next command to run
 argument-hint: [TEAM-XXX]
 ---
