@@ -36,6 +36,7 @@ Include:
 - [x] `/code-review` - Multi-agent code review
 
 **Supporting Commands:**
+- [x] `/status` - Check ticket pipeline stage and next command
 - [x] `/create_plan` - Interactive plan creation with TDD
 - [x] `/local_review` - Set up workspace for reviewing a colleague's branch
 - [x] `/create_handoff` - Create handoff document for session continuity
