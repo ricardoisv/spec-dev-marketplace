@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "klira-spec-dev-marketplace",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Klira public plugin marketplace for spec-driven product development",
   "owner": {
     "name": "Klira Team",
